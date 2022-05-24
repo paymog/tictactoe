@@ -22,6 +22,11 @@ service Query {
 		option (google.api.http).get = "/paymog/tictactoe/tictactoe/open_games";
 	}
 
+// Queries a list of AllGames items.
+	rpc AllGames(QueryAllGamesRequest) returns (QueryAllGamesResponse) {
+		option (google.api.http).get = "/paymog/tictactoe/tictactoe/all_games";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -43,6 +48,15 @@ message QueryOpenGamesResponse {
   repeated Game games = 1;
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 
+}
+
+message QueryAllGamesRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllGamesResponse {
+  repeated Game games = 1;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

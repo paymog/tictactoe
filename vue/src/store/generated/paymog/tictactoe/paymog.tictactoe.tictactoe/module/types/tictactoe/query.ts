@@ -27,6 +27,15 @@ export interface QueryOpenGamesResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryAllGamesRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllGamesResponse {
+  games: Game[];
+  pagination: PageResponse | undefined;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -277,12 +286,165 @@ export const QueryOpenGamesResponse = {
   },
 };
 
+const baseQueryAllGamesRequest: object = {};
+
+export const QueryAllGamesRequest = {
+  encode(
+    message: QueryAllGamesRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllGamesRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllGamesRequest } as QueryAllGamesRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllGamesRequest {
+    const message = { ...baseQueryAllGamesRequest } as QueryAllGamesRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllGamesRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryAllGamesRequest>): QueryAllGamesRequest {
+    const message = { ...baseQueryAllGamesRequest } as QueryAllGamesRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllGamesResponse: object = {};
+
+export const QueryAllGamesResponse = {
+  encode(
+    message: QueryAllGamesResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.games) {
+      Game.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllGamesResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllGamesResponse } as QueryAllGamesResponse;
+    message.games = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.games.push(Game.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllGamesResponse {
+    const message = { ...baseQueryAllGamesResponse } as QueryAllGamesResponse;
+    message.games = [];
+    if (object.games !== undefined && object.games !== null) {
+      for (const e of object.games) {
+        message.games.push(Game.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllGamesResponse): unknown {
+    const obj: any = {};
+    if (message.games) {
+      obj.games = message.games.map((e) => (e ? Game.toJSON(e) : undefined));
+    } else {
+      obj.games = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllGamesResponse>
+  ): QueryAllGamesResponse {
+    const message = { ...baseQueryAllGamesResponse } as QueryAllGamesResponse;
+    message.games = [];
+    if (object.games !== undefined && object.games !== null) {
+      for (const e of object.games) {
+        message.games.push(Game.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Queries a list of OpenGames items. */
   OpenGames(request: QueryOpenGamesRequest): Promise<QueryOpenGamesResponse>;
+  /** Queries a list of AllGames items. */
+  AllGames(request: QueryAllGamesRequest): Promise<QueryAllGamesResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -309,6 +471,18 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryOpenGamesResponse.decode(new Reader(data))
+    );
+  }
+
+  AllGames(request: QueryAllGamesRequest): Promise<QueryAllGamesResponse> {
+    const data = QueryAllGamesRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "paymog.tictactoe.tictactoe.Query",
+      "AllGames",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllGamesResponse.decode(new Reader(data))
     );
   }
 }

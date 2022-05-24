@@ -39,6 +39,21 @@ export interface TictactoeMsgStartGameResponse {
  */
 export type TictactoeParams = object;
 
+export interface TictactoeQueryAllGamesResponse {
+  games?: TictactoeGame[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface TictactoeQueryOpenGamesResponse {
   games?: TictactoeGame[];
 
@@ -321,6 +336,32 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryAllGames
+   * @summary Queries a list of AllGames items.
+   * @request GET:/paymog/tictactoe/tictactoe/all_games
+   */
+  queryAllGames = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<TictactoeQueryAllGamesResponse, RpcStatus>({
+      path: `/paymog/tictactoe/tictactoe/all_games`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *
