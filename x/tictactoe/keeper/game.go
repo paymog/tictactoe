@@ -6,8 +6,12 @@ import (
 	"github.com/paymog/tictactoe/x/tictactoe/types"
 )
 
+func (k Keeper) getGameStore(ctx sdk.Context) prefix.Store {
+	return prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.GamesKey))
+}
+
 func (k Keeper) AppendGame(ctx sdk.Context, game types.Game) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.GamesKey))
+	store := k.getGameStore(ctx)
 	// Convert the post ID into bytes
 	//byteKey := make([]byte, 8)
 	//binary.BigEndian.PutUint64(byteKey, game.Id)

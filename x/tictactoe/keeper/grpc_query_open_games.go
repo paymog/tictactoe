@@ -30,7 +30,7 @@ func (k Keeper) OpenGames(goCtx context.Context, req *types.QueryOpenGamesReques
 		if err := k.cdc.Unmarshal(value, &game); err != nil {
 			return err
 		}
-		if game.Open {
+		if game.Opponent == "" {
 			games = append(games, &game)
 		}
 		return nil

@@ -6,11 +6,10 @@ export const protobufPackage = "paymog.tictactoe.tictactoe";
 export interface Game {
   creator: string;
   opponent: string;
-  open: boolean;
   id: string;
 }
 
-const baseGame: object = { creator: "", opponent: "", open: false, id: "" };
+const baseGame: object = { creator: "", opponent: "", id: "" };
 
 export const Game = {
   encode(message: Game, writer: Writer = Writer.create()): Writer {
@@ -20,11 +19,8 @@ export const Game = {
     if (message.opponent !== "") {
       writer.uint32(18).string(message.opponent);
     }
-    if (message.open === true) {
-      writer.uint32(24).bool(message.open);
-    }
     if (message.id !== "") {
-      writer.uint32(34).string(message.id);
+      writer.uint32(26).string(message.id);
     }
     return writer;
   },
@@ -43,9 +39,6 @@ export const Game = {
           message.opponent = reader.string();
           break;
         case 3:
-          message.open = reader.bool();
-          break;
-        case 4:
           message.id = reader.string();
           break;
         default:
@@ -68,11 +61,6 @@ export const Game = {
     } else {
       message.opponent = "";
     }
-    if (object.open !== undefined && object.open !== null) {
-      message.open = Boolean(object.open);
-    } else {
-      message.open = false;
-    }
     if (object.id !== undefined && object.id !== null) {
       message.id = String(object.id);
     } else {
@@ -85,7 +73,6 @@ export const Game = {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.opponent !== undefined && (obj.opponent = message.opponent);
-    message.open !== undefined && (obj.open = message.open);
     message.id !== undefined && (obj.id = message.id);
     return obj;
   },
@@ -101,11 +88,6 @@ export const Game = {
       message.opponent = object.opponent;
     } else {
       message.opponent = "";
-    }
-    if (object.open !== undefined && object.open !== null) {
-      message.open = object.open;
-    } else {
-      message.open = false;
     }
     if (object.id !== undefined && object.id !== null) {
       message.id = object.id;

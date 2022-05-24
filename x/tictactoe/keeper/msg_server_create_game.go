@@ -25,5 +25,5 @@ func (k msgServer) CreateGame(goCtx context.Context, msg *types.MsgCreateGame) (
 
 	k.AppendGame(ctx, game)
 
-	return &types.MsgCreateGameResponse{Creator: msg.Creator, Id: game.Id}, nil
+	return &types.MsgCreateGameResponse{Game: &game}, nil
 }

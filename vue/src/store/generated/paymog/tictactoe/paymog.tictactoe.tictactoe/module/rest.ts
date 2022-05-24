@@ -23,13 +23,15 @@ export interface RpcStatus {
 export interface TictactoeGame {
   creator?: string;
   opponent?: string;
-  open?: boolean;
   id?: string;
 }
 
 export interface TictactoeMsgCreateGameResponse {
-  creator?: string;
-  id?: string;
+  game?: TictactoeGame;
+}
+
+export interface TictactoeMsgStartGameResponse {
+  game?: TictactoeGame;
 }
 
 /**

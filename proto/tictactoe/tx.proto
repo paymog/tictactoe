@@ -1,6 +1,7 @@
 syntax = "proto3";
 package paymog.tictactoe.tictactoe;
 
+import "tictactoe/game.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/paymog/tictactoe/x/tictactoe/types";
@@ -8,6 +9,7 @@ option go_package = "github.com/paymog/tictactoe/x/tictactoe/types";
 // Msg defines the Msg service.
 service Msg {
       rpc CreateGame(MsgCreateGame) returns (MsgCreateGameResponse);
+  rpc StartGame(MsgStartGame) returns (MsgStartGameResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -16,8 +18,16 @@ message MsgCreateGame {
 }
 
 message MsgCreateGameResponse {
+  Game game = 1;
+}
+
+message MsgStartGame {
   string creator = 1;
   string id = 2;
+}
+
+message MsgStartGameResponse {
+    Game game = 1;
 }
 
 // this line is used by starport scaffolding # proto/tx/message
