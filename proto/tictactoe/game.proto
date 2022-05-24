@@ -1,0 +1,10 @@
+syntax = "proto3";
+package paymog.tictactoe.tictactoe;
+option go_package = "github.com/paymog/tictactoe/x/tictactoe/types";
+
+message Game {
+  string creator = 1;
+  string opponent = 2;
+  bool open = 3;
+  string id = 4;
+}

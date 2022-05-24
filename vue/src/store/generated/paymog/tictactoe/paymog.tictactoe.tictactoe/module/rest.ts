@@ -20,6 +20,11 @@ export interface RpcStatus {
   details?: ProtobufAny[];
 }
 
+export interface TictactoeMsgCreateGameResponse {
+  creator?: string;
+  id?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */
@@ -225,7 +230,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title tictactoe/genesis.proto
+ * @title tictactoe/game.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

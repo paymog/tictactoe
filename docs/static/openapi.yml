@@ -50688,6 +50688,13 @@ definitions:
     description: >-
       QueryAppVersionResponse is the response type for the Query/AppVersion RPC
       method.
+  paymog.tictactoe.tictactoe.MsgCreateGameResponse:
+    type: object
+    properties:
+      creator:
+        type: string
+      id:
+        type: string
   paymog.tictactoe.tictactoe.Params:
     type: object
     description: Params defines the parameters for the module.
