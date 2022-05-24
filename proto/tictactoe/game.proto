@@ -2,8 +2,24 @@ syntax = "proto3";
 package paymog.tictactoe.tictactoe;
 option go_package = "github.com/paymog/tictactoe/x/tictactoe/types";
 
+enum GameStatus {
+  OPEN = 0;
+  STARTED = 1;
+  X_WINNER = 2;
+  Y_WINNER = 3;
+  TIE = 4;
+}
+
+enum Cell {
+  EMPTY = 0;
+  X = 1;
+  O = 2;
+}
+
 message Game {
   string creator = 1;
   string opponent = 2;
   string id = 3;
+  repeated Cell state = 4;
+  GameStatus status = 5;
 }

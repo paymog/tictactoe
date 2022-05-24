@@ -10,6 +10,7 @@ option go_package = "github.com/paymog/tictactoe/x/tictactoe/types";
 service Msg {
       rpc CreateGame(MsgCreateGame) returns (MsgCreateGameResponse);
   rpc StartGame(MsgStartGame) returns (MsgStartGameResponse);
+  rpc MakeMove(MsgMakeMove) returns (MsgMakeMoveResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -28,6 +29,17 @@ message MsgStartGame {
 
 message MsgStartGameResponse {
     Game game = 1;
+}
+
+message MsgMakeMove {
+  string creator = 1;
+  string id = 2;
+  string row = 3;
+  string col = 4;
+}
+
+message MsgMakeMoveResponse {
+  Game game = 1;
 }
 
 // this line is used by starport scaffolding # proto/tx/message

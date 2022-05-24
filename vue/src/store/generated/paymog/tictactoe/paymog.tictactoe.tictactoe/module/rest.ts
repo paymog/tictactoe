@@ -20,13 +20,33 @@ export interface RpcStatus {
   details?: ProtobufAny[];
 }
 
+export enum TictactoeCell {
+  EMPTY = "EMPTY",
+  X = "X",
+  O = "O",
+}
+
 export interface TictactoeGame {
   creator?: string;
   opponent?: string;
   id?: string;
+  state?: TictactoeCell[];
+  status?: TictactoeGameStatus;
+}
+
+export enum TictactoeGameStatus {
+  OPEN = "OPEN",
+  STARTED = "STARTED",
+  X_WINNER = "X_WINNER",
+  Y_WINNER = "Y_WINNER",
+  TIE = "TIE",
 }
 
 export interface TictactoeMsgCreateGameResponse {
+  game?: TictactoeGame;
+}
+
+export interface TictactoeMsgMakeMoveResponse {
   game?: TictactoeGame;
 }
 

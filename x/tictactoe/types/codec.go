@@ -10,6 +10,7 @@ import (
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateGame{}, "tictactoe/CreateGame", nil)
 	cdc.RegisterConcrete(&MsgStartGame{}, "tictactoe/StartGame", nil)
+	cdc.RegisterConcrete(&MsgMakeMove{}, "tictactoe/MakeMove", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -19,6 +20,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgStartGame{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgMakeMove{},
 	)
 	// this line is used by starport scaffolding # 3
 

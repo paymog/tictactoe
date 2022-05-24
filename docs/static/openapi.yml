@@ -29522,6 +29522,24 @@ paths:
                       type: string
                     id:
                       type: string
+                    state:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - EMPTY
+                          - X
+                          - O
+                        default: EMPTY
+                    status:
+                      type: string
+                      enum:
+                        - OPEN
+                        - STARTED
+                        - X_WINNER
+                        - Y_WINNER
+                        - TIE
+                      default: OPEN
               pagination:
                 type: object
                 properties:
@@ -29647,6 +29665,24 @@ paths:
                       type: string
                     id:
                       type: string
+                    state:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - EMPTY
+                          - X
+                          - O
+                        default: EMPTY
+                    status:
+                      type: string
+                      enum:
+                        - OPEN
+                        - STARTED
+                        - X_WINNER
+                        - Y_WINNER
+                        - TIE
+                      default: OPEN
               pagination:
                 type: object
                 properties:
@@ -50938,6 +50974,13 @@ definitions:
     description: >-
       QueryAppVersionResponse is the response type for the Query/AppVersion RPC
       method.
+  paymog.tictactoe.tictactoe.Cell:
+    type: string
+    enum:
+      - EMPTY
+      - X
+      - O
+    default: EMPTY
   paymog.tictactoe.tictactoe.Game:
     type: object
     properties:
@@ -50947,6 +50990,33 @@ definitions:
         type: string
       id:
         type: string
+      state:
+        type: array
+        items:
+          type: string
+          enum:
+            - EMPTY
+            - X
+            - O
+          default: EMPTY
+      status:
+        type: string
+        enum:
+          - OPEN
+          - STARTED
+          - X_WINNER
+          - Y_WINNER
+          - TIE
+        default: OPEN
+  paymog.tictactoe.tictactoe.GameStatus:
+    type: string
+    enum:
+      - OPEN
+      - STARTED
+      - X_WINNER
+      - Y_WINNER
+      - TIE
+    default: OPEN
   paymog.tictactoe.tictactoe.MsgCreateGameResponse:
     type: object
     properties:
@@ -50959,6 +51029,54 @@ definitions:
             type: string
           id:
             type: string
+          state:
+            type: array
+            items:
+              type: string
+              enum:
+                - EMPTY
+                - X
+                - O
+              default: EMPTY
+          status:
+            type: string
+            enum:
+              - OPEN
+              - STARTED
+              - X_WINNER
+              - Y_WINNER
+              - TIE
+            default: OPEN
+  paymog.tictactoe.tictactoe.MsgMakeMoveResponse:
+    type: object
+    properties:
+      game:
+        type: object
+        properties:
+          creator:
+            type: string
+          opponent:
+            type: string
+          id:
+            type: string
+          state:
+            type: array
+            items:
+              type: string
+              enum:
+                - EMPTY
+                - X
+                - O
+              default: EMPTY
+          status:
+            type: string
+            enum:
+              - OPEN
+              - STARTED
+              - X_WINNER
+              - Y_WINNER
+              - TIE
+            default: OPEN
   paymog.tictactoe.tictactoe.MsgStartGameResponse:
     type: object
     properties:
@@ -50971,6 +51089,24 @@ definitions:
             type: string
           id:
             type: string
+          state:
+            type: array
+            items:
+              type: string
+              enum:
+                - EMPTY
+                - X
+                - O
+              default: EMPTY
+          status:
+            type: string
+            enum:
+              - OPEN
+              - STARTED
+              - X_WINNER
+              - Y_WINNER
+              - TIE
+            default: OPEN
   paymog.tictactoe.tictactoe.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -50988,6 +51124,24 @@ definitions:
               type: string
             id:
               type: string
+            state:
+              type: array
+              items:
+                type: string
+                enum:
+                  - EMPTY
+                  - X
+                  - O
+                default: EMPTY
+            status:
+              type: string
+              enum:
+                - OPEN
+                - STARTED
+                - X_WINNER
+                - Y_WINNER
+                - TIE
+              default: OPEN
       pagination:
         type: object
         properties:
@@ -51027,6 +51181,24 @@ definitions:
               type: string
             id:
               type: string
+            state:
+              type: array
+              items:
+                type: string
+                enum:
+                  - EMPTY
+                  - X
+                  - O
+                default: EMPTY
+            status:
+              type: string
+              enum:
+                - OPEN
+                - STARTED
+                - X_WINNER
+                - Y_WINNER
+                - TIE
+              default: OPEN
       pagination:
         type: object
         properties:

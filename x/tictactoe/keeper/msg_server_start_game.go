@@ -12,12 +12,9 @@ func (k msgServer) StartGame(goCtx context.Context, msg *types.MsgStartGame) (*t
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Handling the message
-	store := k.getGameStore(ctx)
-
-	value := store.Get([]byte(msg.GetId()))
-	var game types.Game
-	if err := k.cdc.Unmarshal(value, &game); err != nil {
-		return nil, err
+	game, err := k.getGame(ctx, msg.GetId())
+	if err != nil {
+		return nil, fmt.Errorf("could not get game: %v", err)
 	}
 
 	if game.Opponent != "" {
@@ -28,9 +25,9 @@ func (k msgServer) StartGame(goCtx context.Context, msg *types.MsgStartGame) (*t
 		return nil, fmt.Errorf("cannot start own game")
 	}
 
-	// save the opponent
 	game.Opponent = msg.Creator
-	store.Set([]byte(game.Id), k.cdc.MustMarshal(&game))
+	game.Status = types.GameStatus_STARTED
+	k.saveGame(ctx, game)
 
-	return &types.MsgStartGameResponse{Game: &game}, nil
+	return &types.MsgStartGameResponse{Game: game}, nil
 }

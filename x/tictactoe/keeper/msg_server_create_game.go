@@ -21,9 +21,11 @@ func (k msgServer) CreateGame(goCtx context.Context, msg *types.MsgCreateGame) (
 	game := types.Game{
 		Creator: msg.Creator,
 		Id:      id.String(),
+		Status:  types.GameStatus_OPEN,
+		State:   make([]types.Cell, 9),
 	}
 
-	k.AppendGame(ctx, game)
+	k.saveGame(ctx, &game)
 
 	return &types.MsgCreateGameResponse{Game: &game}, nil
 }
